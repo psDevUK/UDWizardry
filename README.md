@@ -1,42 +1,86 @@
-# Universal Dashboard Template Component
+# UDWizardry
 
-This template library is used for [creating custom components for Universal Dashboard](https://docs.ironmansoftware.com/dashboard/components/building-custom-components).
+This is a powershell module which has been based upon the following react component:-
+[!ref Original Component](https://www.npmjs.com/package/react-wizardry)
 
-## Dependencies
-
-- [NodeJS](https://nodejs.org/en/download/)
-- [InvokeBuild](https://www.powershellgallery.com/packages/InvokeBuild)
-
-## Building 
-
-You can just run `Invoke-Build` within this folder and it will build the module. 
-
-## Customize Template
-
-To customize this template, you will need update some of the files. 
-
-### PSD1 and PSM1
-
-You need to rename the PSD1 and PSM1 file to match the name of the component you are building. You should also update the PSD1 file to include your author information and updated PSM1 file name. Within the PSM1 file, you should add the component functions you are building. 
-
-### Package.json
-
-Package.json will include the name of your component and any dependencies you may want to include. If you are using other react libraries, these will be added here. This can also be accomplished using `npm`. 
-
-For example, you could install the [React95](https://github.com/React95/React95) library by using the following command line
-
+## Demo Dashboard
 ```
-npm install @react95
+New-UDDashboard -Title 'UDWizardry' -Content {
+New-UDRow -Columns {
+  New-UDColumn -Content {
+New-UDWizardry -BodyHeight 350 -Pages {
+  [PSCustomObject]@{
+    title = "Name"
+    fields = @([ordered]@{
+      label = "First Name"
+      name = "fname"
+      type = "text"
+      isRequired = $true
+    },
+    [ordered]@{
+      label = "Last Name"
+      name = "lname"
+      type = "text"
+      isRequired = $false
+    })
+  },[PSCustomObject]@{
+      title = "Second"
+      fields = @([ordered]@{
+        label = "Email Address"
+        name = "eaddress"
+        type = "email"
+        isRequired = $false
+      }
+      )
+    } | ConvertTo-Json -AsArray -Depth 4 | ConvertFrom-Json
+  }
+  }
+}
+}
 ```
 
-### Components
+ This works but would be nice to figure out a function on how to make this more dynamic.
+ 
+ 
+ ## Works but need dynamic fields
+ 
+ ```
+ function New-UDWizardryPage1Field
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true)]
+        [string]$Title,        
+        [Parameter(Mandatory=$true)]
+        [string]$Label,
+        [Parameter(Mandatory=$true)]
+        [string]$Name,
+        [Parameter]
+        [ValidateSet("text","email","phone","number","password","textarea","select","checkbox","radio","datetime","file")]
+        [string]$Type = "text",
+        [Parameter()]
+        [string]$Required = $false
 
-The components folder contains your JavaScript components. 
+    )
 
-#### index.js
-
-This is the entry point for your component. If you have more than one component, you should register it here. The ID needs to be unique within UD so make it special. 
-
-#### component.jsx
-
-This is the actual implementation of your component. 
+    Begin
+    {
+    }
+    Process
+    {
+      [PSCustomObject]@{
+    title = $Title
+    fields = @([ordered]@{
+      label = $Label
+      name = $Name
+      type = $Type
+      isRequired = $Required
+    } #### NEED TO FIGURE OUT HOW TO NEST ADDITIONAL FIELDS HERE, AND THEN NEST ADDITIONAL PAGES
+  } | ConvertTo-Json -AsArray -Depth 4 | ConvertFrom-Json
+    }
+    End
+    {
+    }
+}
+ ```
