@@ -1,7 +1,7 @@
 # UDWizardry
 
 This is a powershell module which has been based upon the following react component:-
-[!ref Original Component](https://www.npmjs.com/package/react-wizardry)
+[Original REACT-WIZARDRY Component](https://www.npmjs.com/package/react-wizardry)
 
 ## Demo Dashboard
 ```
