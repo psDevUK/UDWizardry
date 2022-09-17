@@ -37,6 +37,8 @@ function New-UDWizardry {
     )
 
     End {
+        $OnFinish.Register($Id, $PSCmdlet)
+    
         @{
             assetId = $AssetId 
             isPlugin = $true
@@ -48,6 +50,7 @@ function New-UDWizardry {
             stepperItemWidth = $StepperWidth
             showStepperTitles = $ShowStepperTitles
             pages = [array]$Pages.Invoke()
+            onFinish = $OnFinish
             
         }
     }
