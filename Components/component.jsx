@@ -1,28 +1,27 @@
 import React from 'react';
-import { withComponentFeatures } from 'universal-dashboard';
+import { withComponentFeatures } from 'universal-dashboard'
 import { Wizard } from "react-wizardry";
 import "react-wizardry/dist/react-wizardry.css";
-
+const onFinish = (value) => {
+  props.onFinish(value);
+  // you can do more stuff here to update the wizard control.
+}
 const UDWizardry = props => {
-  
-  const onFinish = (value) => {
-      props.onFinish(value);
-      // you can do more stuff here to update the wizard control.
-  }
-  
   return (
-    <div className="WizardryApp">
+    <div className="App">
       <Wizard
         key={props.id}
-        validationDelay={props.validationDelay}
-        
-        onFinish={onFinish}
         bodyHeight={props.bodyHeight}
+        noPageTitle={props.noPageTitle}
+        showStepperTitles={props.showStepperTitles}
         stepperItemWidth={props.stepperItemWidth}
-        showStepperTitles={props.showStepperTitles} 
+        highlightFieldsOnValidation={props.highlightFieldsOnValidation}
+        onFinish={onFinish}
+        strict={props.strict}
         pages={props.pages}
-      />
-    </div>
+        finishMessage={props.finishMessage}
+        />
+  </div>
   );
 }
 
